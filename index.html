@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>《背影》互動遊戲</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">中一中文科・課文互動學習</p>
+        <h1>走進《背影》的火車站</h1>
+        <p class="subtitle">透過觀察與操作，體會父親的形象、動作描寫與父愛。</p>
+      </div>
+      <button id="homeBtn" class="ghost-btn hidden" type="button">← 返回首頁</button>
+    </header>
+
+    <section id="homeScreen" class="screen active">
+      <div class="game-grid">
+        <article class="game-card">
+          <div class="card-art station-mini" aria-hidden="true">
+            <div class="mini-platform"></div>
+            <div class="mini-crowd">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="badge">遊戲一</span>
+            <h2>在人群中尋找父親的背影</h2>
+            <p>月台上人來人往。根據課文提供的外貌線索，在移動的人群中找出父親。</p>
+            <button class="primary-btn" data-open="findGame" type="button">開始尋找</button>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="card-art climb-mini" aria-hidden="true">
+            <div class="mini-father"></div>
+            <div class="mini-wall"></div>
+            <div class="mini-orange">● ● ●</div>
+          </div>
+          <div class="card-body">
+            <span class="badge">遊戲二</span>
+            <h2>模擬父親買橘子的動作</h2>
+            <p>按正確次序操作父親越過月台、攀上對面月台並買橘子，理解動作描寫。</p>
+            <button class="primary-btn" data-open="orangeGame" type="button">開始挑戰</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="teacher-note">
+        <strong>教學焦點：</strong>
+        第一個遊戲訓練「從描寫找人物特徵」；第二個遊戲把「走、探、攀、縮、傾」等動作詞變成可見、可操作的動作。
+      </div>
+    </section>
+
+    <section id="findGame" class="screen">
+      <div class="section-head">
+        <div>
+          <span class="badge">遊戲一</span>
+          <h2>在人群中尋找父親的背影</h2>
+        </div>
+        <div class="hud">
+          <span>回合 <b id="roundText">1</b>/3</span>
+          <span>時間 <b id="timerText">30</b>s</span>
+          <span>得分 <b id="scoreText">0</b></span>
+        </div>
+      </div>
+
+      <div class="clue-panel">
+        <strong>人物線索</strong>
+        <div class="clues">
+          <span>黑布小帽</span>
+          <span>黑布大馬褂</span>
+          <span>深青布棉袍</span>
+          <span>身材較胖</span>
+          <span>從背面辨認</span>
+        </div>
+      </div>
+
+      <div id="station" class="station" aria-label="火車站月台場景">
+        <div class="station-roof"></div>
+        <div class="station-sign">浦口車站・月台</div>
+        <div class="clock">◷</div>
+
+        <div class="depth-wall">
+          <span class="poster">茶</span>
+          <span class="poster">行李</span>
+          <span class="poster">月台</span>
+        </div>
+
+        <div class="track track-a"></div>
+        <div class="track track-b"></div>
+        <div class="platform-edge"></div>
+
+        <div id="crowdLayer" class="crowd-layer"></div>
+
+        <div class="station-instruction" id="stationInstruction">點擊你認為是父親的人物。</div>
+      </div>
+
+      <div class="control-row">
+        <button id="restartFindBtn" class="secondary-btn" type="button">重新開始</button>
+      </div>
+
+      <div id="findResult" class="result-panel hidden"></div>
+    </section>
+
+    <section id="orangeGame" class="screen">
+      <div class="section-head">
+        <div>
+          <span class="badge">遊戲二</span>
+          <h2>模擬父親買橘子的動作</h2>
+        </div>
+        <div class="hud">
+          <span>步驟 <b id="stepText">0</b>/6</span>
+          <span>體力 <b id="energyText">3</b> ♥</span>
+        </div>
+      </div>
+
+      <div class="orange-layout">
+        <div class="scene-panel">
+          <div id="orangeScene" class="orange-scene">
+            <div class="far-platform">
+              <div class="stall">
+                <div class="awning">橘子攤</div>
+                <div class="orange-pile">● ● ● ● ●</div>
+              </div>
+            </div>
+
+            <div class="rail rail-one"></div>
+            <div class="rail rail-two"></div>
+            <div class="near-platform"></div>
+            <div class="wall-face"></div>
+
+            <div id="fatherActor" class="father-actor">
+              <div class="actor-head">
+                <div class="actor-cap"></div>
+              </div>
+              <div class="actor-body"></div>
+              <div class="actor-leg left"></div>
+              <div class="actor-leg right"></div>
+              <div class="actor-oranges hidden" id="actorOranges">●●</div>
+            </div>
+
+            <div id="motionCaption" class="motion-caption">父親準備去買橘子。</div>
+          </div>
+        </div>
+
+        <aside class="action-panel">
+          <p class="action-lead">請按課文中的動作次序操作：</p>
+          <div class="action-buttons" id="actionButtons">
+            <button data-action="walk" type="button">走到月台邊</button>
+            <button data-action="lean" type="button">探身下去</button>
+            <button data-action="climb" type="button">攀上月台</button>
+            <button data-action="tuck" type="button">兩腳向上縮</button>
+            <button data-action="tilt" type="button">身子微傾</button>
+            <button data-action="buy" type="button">買橘返回</button>
+          </div>
+
+          <div id="actionFeedback" class="action-feedback">
+            先觀察場景，再想一想：父親第一個動作是甚麼？
+          </div>
+
+          <div class="word-bank">
+            <strong>動作詞：</strong>
+            <span>走</span><span>探</span><span>攀</span><span>縮</span><span>傾</span>
+          </div>
+
+          <button id="restartOrangeBtn" class="secondary-btn" type="button">重新挑戰</button>
+        </aside>
+      </div>
+
+      <div id="orangeResult" class="result-panel hidden"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
